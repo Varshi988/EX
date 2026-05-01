@@ -421,13 +421,31 @@ driver.quit()
 ```python
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
 
-driver=webdriver.Edge()
-driver.get("https://facebook.com")
+driver = webdriver.Edge()
+driver.maximize_window()
 
-driver.find_element(By.ID,"email").send_keys("mail")
-driver.find_element(By.ID,"pass").send_keys("password")
-driver.find_element(By.NAME,"login").click()
+driver.get("https://www.facebook.com/")
+
+wait = WebDriverWait(driver, 20)
+
+email = wait.until(EC.visibility_of_element_located((By.NAME, "email")))
+password = wait.until(EC.visibility_of_element_located((By.NAME, "pass")))
+
+email.send_keys("your_email")
+password.send_keys("your_password")
+
+login = wait.until(EC.element_to_be_clickable((By.NAME, "login")))
+login.click()
+
+time.sleep(10)
+
+print("Facebook homepage opened successfully")
+
+driver.quit()
 ```
 
 ---
